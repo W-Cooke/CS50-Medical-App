@@ -14,7 +14,7 @@ using System.Data.SqlClient;
 using System.Web;
 using System.Globalization;
 
-namespace Medical_Csharp_App.Utilities
+namespace CS50_Medical_App.Utilities
 {
     public class Utility
     {

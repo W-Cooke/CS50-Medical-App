@@ -12,9 +12,15 @@ namespace CS50_Medical_App
 {
     public partial class DisplayForm : Form
     {
-        public DisplayForm()
+        public DisplayForm(Dictionary<string, string> dict)
         {
             InitializeComponent();
+            var PatientInfo = dict;
+        }
+
+        private void DisplayForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

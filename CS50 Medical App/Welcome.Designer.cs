@@ -63,6 +63,7 @@
             this.BtnLookup.TabIndex = 2;
             this.BtnLookup.Text = "Lookup patient";
             this.BtnLookup.UseVisualStyleBackColor = true;
+            this.BtnLookup.Click += new System.EventHandler(this.BtnLookup_Click);
             // 
             // BtnDelete
             // 

@@ -77,15 +77,9 @@ namespace CS50_Medical_App
                 }
                 validationcheck++;
             }
-            //checking the value of the validation checker
-            MessageBox.Show($"Validation check number:{validationcheck}", "Error");
-            //at the end
+            //if all validations have been passed, continue to generate patient ID then save information in SQL database
             if (validationcheck == validator)
             {
-                //Code here to finish
-                //generate Patient ID
-                //check ID is unique
-                //regenerate if not
                 string IDcheck = "";
                 string patientID;
                 do

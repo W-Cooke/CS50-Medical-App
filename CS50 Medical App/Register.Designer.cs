@@ -174,6 +174,7 @@ namespace CS50_Medical_App
             this.BtnCancel.TabIndex = 12;
             this.BtnCancel.Text = "Cancel";
             this.BtnCancel.UseVisualStyleBackColor = true;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click_1);
             // 
             // Ftitle
             // 

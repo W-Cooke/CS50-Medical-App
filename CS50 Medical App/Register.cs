@@ -37,14 +37,12 @@ namespace CS50_Medical_App
             string pronouns = Fpronouns.Text;
             string addnum = Faddnum.Text;
             string addline1 = Faddline1.Text;
-            string addline2 = !String.IsNullOrEmpty(Faddline2.Text) ? Faddline2.Text : "";
+            string addline2 = !String.IsNullOrEmpty(Faddline2.Text) ? Faddline2.Text : string.Empty;
             string county = Faddcounty.Text;
             string postcode = Faddpostcode.Text;
             string phonenum = Fphonenum.Text;
 
             string addinfo = ConsolidateAddress(addnum, addline1, addline2, county, postcode);
-            //TODO: add checker for patient ID to ensure no duplicates can occur
-            string PatientID = GetPatientID(dateofbirth);
 
             int validationcheck = 0;
             int validator = 0;
@@ -79,7 +77,8 @@ namespace CS50_Medical_App
                 }
                 validationcheck++;
             }
-
+            //checking the value of the validation checker
+            MessageBox.Show($"Validation check number:{validationcheck}", "Error");
             //at the end
             if (validationcheck == validator)
             {
@@ -88,7 +87,7 @@ namespace CS50_Medical_App
                 //check ID is unique
                 //regenerate if not
                 string IDcheck = "";
-                string patientID = "";
+                string patientID;
                 do
                 {
                     patientID = GetPatientID(dateofbirth);  //generate patient ID
@@ -152,10 +151,6 @@ namespace CS50_Medical_App
                 MessageBox.Show($"Incomplete form\nValdiation check: {validationcheck}", "Information");
             }
         }
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
         //method to generate patient ID based on birth date and 4 random digits
         private string GetPatientID(DateTime date)
         {
@@ -192,6 +187,11 @@ namespace CS50_Medical_App
             {
                 return num + " " + addline1 + ", " + addline2 + ", " + county + ", " + postcode;
             }
+        }
+
+        private void BtnCancel_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

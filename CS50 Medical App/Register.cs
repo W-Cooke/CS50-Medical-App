@@ -45,7 +45,7 @@ namespace CS50_Medical_App
             string addinfo = ConsolidateAddress(addnum, addline1, addline2, county, postcode);
 
             int validationcheck = 0;
-            int validator = 0;
+            int validator = 7;
 
             DateTime today = DateTime.Today;
             if (today.Date == dateofbirth.Date)

@@ -76,6 +76,7 @@
     <Compile Include="Register.Designer.cs">
       <DependentUpon>Register.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Utilities.cs" />
     <Compile Include="Welcome.cs">
       <SubType>Form</SubType>
     </Compile>

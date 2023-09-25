@@ -18,6 +18,6 @@ namespace CS50_Medical_App.Utilities
 {
     public class Utility
     {
-        public static string PatientsConnection = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\spark\\source\\repos\\Medical Csharp\\Medical Csharp\\patients.mdf\";Integrated Security=True";
+        public static string PatientsConnection = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Will\\source\\repos\\CS50 Medical App\\CS50 Medical App\\Patients.mdf";
     }
 }

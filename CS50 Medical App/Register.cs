@@ -1,9 +1,12 @@
-﻿using System;
+﻿using CS50_Medical_App.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +23,9 @@ namespace CS50_Medical_App
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
+            //SQL connection
+            SqlConnection con = new SqlConnection(Utility.PatientsConnection);
+
             //Information from Form
             string title = Ftitle.Text;
             string forename = Fforename.Text;
@@ -52,15 +58,98 @@ namespace CS50_Medical_App
             {
                 validationcheck++;
             }
+            //create list of tuples for each of the non-address related fields in the form
+            List<(string field, string fieldName)> fields = new List<(string field, string fieldName)>
+            {
+                (forename, "Forename"),
+                (surname, "Surname"),
+                (title, "Title"),
+                (sex, "Sex"),
+                (phonenum, "Phone number"),
+                (addinfo, "Address")
+            };
+
+            // iterate over each field, ensuring the form is filled.
+            foreach (var (field, fieldName) in fields)
+            {
+                if (string.IsNullOrEmpty(field))
+                {
+                    MessageBox.Show($"Error, missing or incomplete {fieldName}!"); //throw an error message with the corresponding empty field to the user
+                    return; // exit the method if any field is empty
+                }
+                validationcheck++;
+            }
 
             //at the end
             if (validationcheck == validator)
             {
                 //Code here to finish
+                //generate Patient ID
+                //check ID is unique
+                //regenerate if not
+                string IDcheck = "";
+                string patientID = "";
+                do
+                {
+                    patientID = GetPatientID(dateofbirth);  //generate patient ID
+                    try
+                    {
+                        con.Open();
+                        SqlCommand cmd = new SqlCommand($"SELECT ID FROM [dbo].[Patients] WHERE ID LIKE {patientID}", con); //check DB if ID already exists
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader != null)
+                        {
+                            while (reader.Read())
+                            {
+                                IDcheck = reader.GetString(0);
+                            }
+                        }
+                        con.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+                while (patientID == IDcheck);
+                //based on if the optional pronouns segment of the form has been filled, the insert statement will be slightly different
+                string insertstatement;
+                if (string.IsNullOrEmpty(pronouns))
+                {
+                    insertstatement = $"INSERT INTO [dbo].[Patients] (ID, title, forename, surname, sex, DoB, address, phone) VALUES ('{patientID}', '{title}', '{forename}', '{surname}', '{sex}', '{bday}', '{addinfo}', '{phonenum}')";
+                }
+                else
+                {
+                    insertstatement = $"INSERT INTO [dbo].[Patients] (ID, title, forename, surname, pronouns, sex, DoB, address, phone) VALUES ('{patientID}', '{title}', '{forename}', '{surname}', '{pronouns}', '{sex}', '{bday}', '{addinfo}', '{phonenum}')";
+                }
+                MessageBox.Show($"Patient ID: {patientID}\nPlease make a note of this", "Information");
+
+                //SQL insert query
+                try
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand(insertstatement, con);
+                    int rowsaffected = cmd.ExecuteNonQuery();
+                    if (rowsaffected > 0)
+                    {
+                        MessageBox.Show("Patient registered successfully", "Success!");
+                        //close registration window
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to register patient", "Something went wrong!");
+                    }
+                    con.Close();
+                }
+                catch (Exception es)
+                {
+                    MessageBox.Show(es.Message);
+                }
             }
             else
             {
-                MessageBox.Show("Something went wrong", "Oopsie Doopsie!");
+                MessageBox.Show($"Incomplete form\nValdiation check: {validationcheck}", "Information");
             }
         }
         private void BtnCancel_Click(object sender, EventArgs e)

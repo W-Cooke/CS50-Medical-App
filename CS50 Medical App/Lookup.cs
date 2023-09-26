@@ -18,7 +18,7 @@ namespace CS50_Medical_App
         {
             InitializeComponent();
         }
-
+        //TODO: currently ID uses old method, nameDoB uses new overload method. test which works
         private void ButtonID_Click(object sender, EventArgs e)
         {
             //search SQL database based on ID number
@@ -32,7 +32,7 @@ namespace CS50_Medical_App
             using (con)
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand($"SELECT * FROM [dbo].[Patients] WHERE ID LIKE '{patientID}'", con);
+                SqlCommand cmd = new SqlCommand($"SELECT * FROM [dbo].[Patients] WHERE ID = '{patientID}'", con);
                 SqlDataReader reader = cmd.ExecuteReader(); //TODO: error coming from here rn
 
                 // if sql command successful
@@ -69,13 +69,39 @@ namespace CS50_Medical_App
                     MessageBox.Show("Something went wrong with SQL data collection", "Error");
                 }
                 con.Close();
-
             }
         }
 
         private void ButtonNameDoB_Click(object sender, EventArgs e)
         {
-            //code here for search with name TODO:
+            //code here for search with name 
+            //check all fields are valid
+            //populate dictionary from utility method
+            //pass dict to displayform
+            string forename = Forenamefield.Text;
+            string surname = surnamefield.Text; //TODO: update to correct names for these fields
+            DateTime DoB = dobfield.Value;
+            if(!string.IsNullOrEmpty(forename) & !string.IsNullOrEmpty(surname) & DoB != DateTime.Today)
+            {
+                //TODO: check this works and write code
+                var PatientInfo = new Dictionary<string, string>;
+                PatientInfo = Utility.GetPatientInfo(forename, surname, DoB)
+                if (PatientInfo is not null)
+                {
+                    DisplayForm displayform = new DisplayForm(PatientInfo);
+                    displayform.Show();
+                }
+                else
+                {
+                    MessageBox.Show("dictionary null exception", "whatever that means ig"); //TODO: dont leave this, dumbass
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong", "error");
+            }
+
         }
 
 

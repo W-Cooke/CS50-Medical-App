@@ -70,6 +70,7 @@ namespace CS50_Medical_App
                 }
                 con.Close();
             }
+            DataToDisplayForm(PatientInfo);
         }
 
         private void ButtonNameDoB_Click(object sender, EventArgs e)
@@ -83,13 +84,12 @@ namespace CS50_Medical_App
             DateTime DoB = dobfield.Value;
             if(!string.IsNullOrEmpty(forename) & !string.IsNullOrEmpty(surname) & DoB != DateTime.Today)
             {
-                //TODO: check this works and write code
+                //TODO: check this works
                 var PatientInfo = new Dictionary<string, string>;
                 PatientInfo = Utility.GetPatientInfo(forename, surname, DoB)
                 if (PatientInfo is not null)
                 {
-                    DisplayForm displayform = new DisplayForm(PatientInfo);
-                    displayform.Show();
+                    DataToDisplayForm(PatientInfo);
                 }
                 else
                 {
@@ -99,13 +99,13 @@ namespace CS50_Medical_App
             }
             else
             {
-                MessageBox.Show("Something went wrong", "error");
+                MessageBox.Show("Something went wrong\n", "error");
             }
 
         }
 
 
-        //method for opening displayform with dictionary of information as argument
+        //method for opening displayform with dictionary as argument
         private void DataToDisplayForm(Dictionary<string, string> data)
         {
             DisplayForm displayform = new DisplayForm(data);

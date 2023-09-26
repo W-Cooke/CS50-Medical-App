@@ -15,12 +15,22 @@ namespace CS50_Medical_App
         public DisplayForm(Dictionary<string, string> dict)
         {
             InitializeComponent();
-            var PatientInfo = dict;
         }
 
         private void DisplayForm_Load(object sender, EventArgs e)
         {
+            Dictionary<string, string> PatientInfo = (Dictionary<string, string>)sender;
+            //list of keys
+            string[] PatientKey = { "ID", "Title", "Surname", "Forename", "Pronouns", "Sex", "DoB", "Address", "Phone" };
+            
+            string patientID = PatientInfo["ID"];
+            string patientName = PatientInfo["Title"] + ". " + PatientInfo["Forename"] + " " + PatientInfo["Surname"];
+            string dateOfBirth = PatientInfo["DoB"];
+            string patientSex = PatientInfo["Sex"];
+            string pronouns = PatientInfo["Pronouns"];
+            string contactInfo = $"{PatientInfo["Address"]\nPhone: {PatientInfo["Phone"]}";
 
+            
         }
     }
 }

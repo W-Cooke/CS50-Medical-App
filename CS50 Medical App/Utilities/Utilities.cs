@@ -30,7 +30,7 @@ namespace CS50_Medical_App.Utilities
             {
                 con.Open();
                 SqlCommand cmd = new SqlCommand($"SELECT * FROM [dbo].[Patients] WHERE ID LIKE '{patientID}'", con);
-                SqlDataReader reader = cmd.ExecuteReader(); //TODO: error coming from here rn
+                SqlDataReader reader = cmd.ExecuteReader(); //FIXME: needs checking
 
                 // if sql command successful
                 if (reader.RecordsAffected == -1)

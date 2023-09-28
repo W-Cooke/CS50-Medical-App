@@ -21,14 +21,14 @@ namespace CS50_Medical_App
         {
             Dictionary<string, string> PatientInfo = (Dictionary<string, string>)sender;
             //list of keys
-            string[] PatientKey = { "ID", "Title", "Surname", "Forename", "Pronouns", "Sex", "DoB", "Address", "Phone" };
+            string[] PatientKey = { "ID", "Title", "Surname", "Forename", "Pronouns", "Sex", "DoB", "Address", "Phone" }; //TODO: do i need this?
             
             string patientID = PatientInfo["ID"];
             string patientName = PatientInfo["Title"] + ". " + PatientInfo["Forename"] + " " + PatientInfo["Surname"];
             string dateOfBirth = PatientInfo["DoB"];
             string patientSex = PatientInfo["Sex"];
             string pronouns = PatientInfo["Pronouns"];
-            string contactInfo = $"{PatientInfo["Address"]\nPhone: {PatientInfo["Phone"]}";
+            string contactInfo = PatientInfo["Adress"] + "\nPhone: " + PatientInfo["Phone"];
 
             
         }

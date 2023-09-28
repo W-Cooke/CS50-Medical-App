@@ -79,15 +79,15 @@ namespace CS50_Medical_App
             //check all fields are valid
             //populate dictionary from utility method
             //pass dict to displayform
-            string forename = Forenamefield.Text;
-            string surname = surnamefield.Text; //TODO: update to correct names for these fields
-            DateTime DoB = dobfield.Value;
+            string forename = Sforename.Text;
+            string surname = Ssurname.Text;
+            DateTime DoB = SDoB.Value;
             if(!string.IsNullOrEmpty(forename) & !string.IsNullOrEmpty(surname) & DoB != DateTime.Today)
             {
                 //TODO: check this works
-                var PatientInfo = new Dictionary<string, string>;
-                PatientInfo = Utility.GetPatientInfo(forename, surname, DoB)
-                if (PatientInfo is not null)
+                var PatientInfo = new Dictionary<string, string>();
+                PatientInfo= Utility.GetPatientDetails(forename, surname, DoB);
+                if (PatientInfo != null)
                 {
                     DataToDisplayForm(PatientInfo);
                 }

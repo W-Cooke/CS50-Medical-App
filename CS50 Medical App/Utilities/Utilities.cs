@@ -76,6 +76,7 @@ namespace CS50_Medical_App.Utilities
         public Dictionary<string, string> GetPatientDetails(string forename, string surname, DateTime DoB)
         {
             string dateofbirth = DoB.ToString("dd MMMM yyyy");
+            var PatientInfo = new Dictionary<string, string>();
             using (con)
             {
                 con.Open();

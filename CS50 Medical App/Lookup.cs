@@ -18,88 +18,53 @@ namespace CS50_Medical_App
         {
             InitializeComponent();
         }
-        //TODO: currently ID uses old method, nameDoB uses new overload method. test which works
+        //TODO: change how lookup works so that patient ID is the only thing passed through to display form, then looked up *IN* display form
+        //TODO: then displayform performs lookup function itself
+        //TODO: use same strategy for Delete form
         private void ButtonID_Click(object sender, EventArgs e)
         {
             //search SQL database based on ID number
-
-            //SQL connection
-            SqlConnection con = new SqlConnection(Utility.PatientsConnection);
-
             string patientID = SpatientID.Text;
-            var PatientInfo = new Dictionary<string, string>();
-
-            using (con)
+            if (!string.IsNullOrEmpty(patientID))
             {
-                con.Open();
-                SqlCommand cmd = new SqlCommand($"SELECT * FROM [dbo].[Patients] WHERE ID = '{patientID}'", con);
-                SqlDataReader reader = cmd.ExecuteReader(); //TODO: error coming from here rn
-
-                // if sql command successful
-                if (reader.RecordsAffected == -1)
-                {
-                    MessageBox.Show($"SQL command executed successfully\nRecords Affected: {reader.RecordsAffected}", "Information");
-                }
-                else
-                {
-                    MessageBox.Show($"Something went wrong with the SQL query\nRecords Affected: {reader.RecordsAffected}", "Information");
-                }
-
-                //making array of keys so, when populating PatientInfo dictionary, a loop can be used (indexing the list with the reader)
-                string[] PatientKey = { "ID", "Title", "Surname", "Forename", "Pronouns", "Sex", "DoB", "Address", "Phone" };
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        for (int i = 0; i < PatientKey.Length - 1; i++)
-                        {
-                            if (reader.IsDBNull(i))
-                            {
-                                PatientInfo.Add(PatientKey[i], "n/a");
-                            }
-                            else
-                            {
-                                PatientInfo.Add(PatientKey[i], reader.GetString(i));
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Something went wrong with SQL data collection", "Error");
-                }
-                con.Close();
-            }
-            DataToDisplayForm(PatientInfo);
-        }
-
-        private void ButtonNameDoB_Click(object sender, EventArgs e)
-        {
-            //code here for search with name 
-            //check all fields are valid
-            //populate dictionary from utility method
-            //pass dict to displayform
-            string forename = Sforename.Text;
-            string surname = Ssurname.Text;
-            DateTime DoB = SDoB.Value;
-            if(!string.IsNullOrEmpty(forename) & !string.IsNullOrEmpty(surname) & DoB != DateTime.Today)
-            {
-                //TODO: check this works
-                var PatientInfo = new Dictionary<string, string>();
-                PatientInfo= Utility.GetPatientDetails(forename, surname, DoB);
+                var PatientInfo = Utility.GetPatientDetails(patientID);
                 if (PatientInfo != null)
                 {
                     DataToDisplayForm(PatientInfo);
                 }
                 else
                 {
-                    MessageBox.Show("dictionary null exception", "whatever that means ig"); //TODO: dont leave this, dumbass
+                    MessageBox.Show("Dictionary is empty\nSQL entry not found", "Error"); //TODO: make this more specific
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter valid patient ID", "Empty Field");
+            }
+        }
+
+        private void ButtonNameDoB_Click(object sender, EventArgs e)
+        {
+            string forename = Sforename.Text;
+            string surname = Ssurname.Text;
+            DateTime DoB = SDoB.Value;
+            if(!string.IsNullOrEmpty(forename) & !string.IsNullOrEmpty(surname) & DoB != DateTime.Today)
+            {
+                //TODO: check this works
+                var PatientInfo = Utility.GetPatientDetails(forename, surname, DoB);
+                if (PatientInfo != null)
+                {
+                    DataToDisplayForm(PatientInfo);
+                }
+                else
+                {
+                    MessageBox.Show("Dictionary is empty\nSQL entry not found", "Error"); //TODO: dont leave this, dumbass
                 }
                 
             }
             else
             {
-                MessageBox.Show("Something went wrong\n", "error");
+                MessageBox.Show("Please enter forename, surname and date of birth", "Empty field");
             }
 
         }

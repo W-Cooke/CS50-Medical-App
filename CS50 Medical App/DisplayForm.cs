@@ -19,7 +19,7 @@ namespace CS50_Medical_App
 
         private void DisplayForm_Load(object sender, EventArgs e)
         {
-            Dictionary<string, string> PatientInfo = (Dictionary<string, string>)sender;
+            Dictionary<string, string> PatientInfo = (Dictionary<string, string>)sender; //TODO: throws error, cannot convert object to dictionary
             //list of keys
             string[] PatientKey = { "ID", "Title", "Surname", "Forename", "Pronouns", "Sex", "DoB", "Address", "Phone" }; //TODO: do i need this?
             
@@ -29,6 +29,7 @@ namespace CS50_Medical_App
             string patientSex = PatientInfo["Sex"];
             string pronouns = PatientInfo["Pronouns"];
             string contactInfo = PatientInfo["Adress"] + "\nPhone: " + PatientInfo["Phone"];
+            
 
             
         }

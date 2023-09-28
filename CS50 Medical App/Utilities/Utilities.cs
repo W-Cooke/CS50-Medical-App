@@ -21,18 +21,19 @@ namespace CS50_Medical_App.Utilities
         public static string PatientsConnection = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Will\\source\\repos\\CS50 Medical App\\CS50 Medical App\\Patients.mdf\";Integrated Security=True";
 
 
-        SqlConnection con = new SqlConnection(PatientsConnection);
+        public static SqlConnection con = new SqlConnection(PatientsConnection);
 
-        public Dictionary<string, string> GetPatientDetails(string patientID)
+        public static Dictionary<string, string> GetPatientDetails(string patientID)
         {
             var PatientInfo = new Dictionary<string, string>();
             using (con)
             {
                 con.Open();
                 SqlCommand cmd = new SqlCommand($"SELECT * FROM [dbo].[Patients] WHERE ID LIKE '{patientID}'", con);
-                SqlDataReader reader = cmd.ExecuteReader(); //FIXME: needs checking
+                SqlDataReader reader = cmd.ExecuteReader();
 
                 // if sql command successful
+                // TODO: remove before finishing
                 if (reader.RecordsAffected == -1)
                 {
                     MessageBox.Show($"SQL command executed successfully\nRecords Affected: {reader.RecordsAffected}", "Information");
@@ -73,7 +74,7 @@ namespace CS50_Medical_App.Utilities
 
         }
 
-        public Dictionary<string, string> GetPatientDetails(string forename, string surname, DateTime DoB)
+        public static Dictionary<string, string> GetPatientDetails(string forename, string surname, DateTime DoB)
         {
             string dateofbirth = DoB.ToString("dd MMMM yyyy");
             var PatientInfo = new Dictionary<string, string>();
@@ -121,6 +122,18 @@ namespace CS50_Medical_App.Utilities
                 con.Close();
             }
             return PatientInfo;
+        }
+
+        public static string VerifyPatientID(string PatientID)
+        {
+            //TODO: lookup ID number, return ID number if valid, return something else if not
+            return null;
+        }
+        public static string VerifyPatientID(string forename, string surname, DateTime DoB)
+        {
+            //TODO: write method for returning patient ID from name/dob lookup
+            //TODO: return ID if succesful, something else if not
+            return null;
         }
     }
 

@@ -20,9 +20,6 @@ namespace CS50_Medical_App.Utilities
     {
         public static string PatientsConnection = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Will\\source\\repos\\CS50 Medical App\\CS50 Medical App\\Patients.mdf\";Integrated Security=True";
 
-
-        public static SqlConnection con = new SqlConnection(PatientsConnection);
-
         public static Dictionary<string, string> GetPatientDetails(string patientID)
         {
             var PatientInfo = new Dictionary<string, string>();
@@ -35,11 +32,7 @@ namespace CS50_Medical_App.Utilities
 
                 // if sql command successful
                 // TODO: remove before finishing
-                if (reader.RecordsAffected == -1)
-                {
-                    MessageBox.Show($"SQL command executed successfully\nRecords Affected: {reader.RecordsAffected}", "Information");
-                }
-                else
+                if (reader.RecordsAffected != -1)
                 {
                     MessageBox.Show($"Something went wrong with the SQL query\nRecords Affected: {reader.RecordsAffected}", "Information");
                     return null;
@@ -87,13 +80,12 @@ namespace CS50_Medical_App.Utilities
 
                 if (reader.RecordsAffected == -1)
                 {
-                    MessageBox.Show("SQL Command Executed Succesfully!", "SQL");
                     con.Close();
                     return PatientID;
                 }
                 else
                 {
-                    MessageBox.Show("SQL Command went wrong. couldn't look up from Patient ID. Are you sure this is correct?", "Error!");
+                    MessageBox.Show("SQL Command went wrong. couldn't look up from Patient ID.\nAre you sure this is correct?", "Error!");
                     con.Close();
                     return null;
                 }
@@ -101,8 +93,6 @@ namespace CS50_Medical_App.Utilities
         }
         public static string VerifyPatientID(string forename, string surname, DateTime DoB)
         {
-            //TODO: write method for returning patient ID from name/dob lookup
-            //TODO: return ID if succesful, something else if not
             string dateofbirth = DoB.ToString("dd MMMM yyyy");
             string PatientID;
             SqlConnection con = new SqlConnection(PatientsConnection);
@@ -117,15 +107,14 @@ namespace CS50_Medical_App.Utilities
                 {
                     reader.Read();
                     string vsCount = reader.VisibleFieldCount.ToString();
-                    MessageBox.Show($"SQL command executed successfully\nRecords Affected: {reader.RecordsAffected}\nInformation {vsCount}", "Information");
-                    PatientID = reader.GetString(0); //FIXME: system.InvalidOperationException (invalid attempt to read when no data is present)
+                    PatientID = reader.GetString(0);
                     con.Close();
                     return PatientID;
 
                 }
                 else
                 {
-                    MessageBox.Show($"Something went wrong with the SQL query\nRecords Affected: {reader.RecordsAffected}", "Information");
+                    MessageBox.Show($"Something went wrong with the SQL query", "Information");
                     con.Close();
                     return null;
                 }

@@ -36,10 +36,6 @@ namespace CS50_Medical_App
                 {
                     this.Close();
                 }
-                else
-                {
-                    MessageBox.Show("Could not finish deletion process", "Deletion Error");
-                }
             }
             else
             {

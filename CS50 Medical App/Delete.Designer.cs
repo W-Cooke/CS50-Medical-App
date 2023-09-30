@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Delete));
             this.BtnCancel = new System.Windows.Forms.Button();
             this.DButtonNameDoB = new System.Windows.Forms.Button();
             this.DButtonID = new System.Windows.Forms.Button();
@@ -151,6 +152,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Delete";
             this.Text = "Delete";
             this.ResumeLayout(false);

@@ -25,13 +25,20 @@ namespace CS50_Medical_App
         {
 
             var PatientInfo = Utility.GetPatientDetails(PatientID);
-            //TODO:
-            NameField.Text = PatientInfo["Title"] + ". " + PatientInfo["Forename"] + " " + PatientInfo["Surname"];
-            DoBField.Text = PatientInfo["DoB"];
-            SexField.Text = PatientInfo["Sex"];
-            PronounsField.Text = PatientInfo["Pronouns"];
-            ContactField.Text = PatientInfo["Address"];
-            PhoneField.Text = PatientInfo["Phone"];
+            if (PatientInfo != null)
+            {
+                NameField.Text = PatientInfo["Title"] + ". " + PatientInfo["Forename"] + " " + PatientInfo["Surname"];
+                DoBField.Text = PatientInfo["DoB"];
+                SexField.Text = PatientInfo["Sex"];
+                PronounsField.Text = PatientInfo["Pronouns"];
+                ContactField.Text = PatientInfo["Address"];
+                PhoneField.Text = PatientInfo["Phone"];
+            }
+            else
+            {
+                this.Close();
+            }
+            
         }
 
         private void BtnClose_Click(object sender, EventArgs e)

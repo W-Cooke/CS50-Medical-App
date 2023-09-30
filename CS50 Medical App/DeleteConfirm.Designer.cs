@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeleteConfirm));
             this.DeleteWho = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.DeleteVerify = new System.Windows.Forms.TextBox();
@@ -90,6 +91,7 @@
             this.Controls.Add(this.DeleteVerify);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.DeleteWho);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DeleteConfirm";
             this.Text = "Delete Confirmation";
             this.Load += new System.EventHandler(this.DeleteConfirm_Load);

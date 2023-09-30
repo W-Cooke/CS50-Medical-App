@@ -84,6 +84,7 @@
             this.Controls.Add(this.BtnLookup);
             this.Controls.Add(this.BtnRegister);
             this.Controls.Add(this.pictureBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Welcome";
             this.Text = "CS50 Medical";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

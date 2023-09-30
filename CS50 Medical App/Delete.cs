@@ -22,7 +22,7 @@ namespace CS50_Medical_App
         private void DButtonID_Click(object sender, EventArgs e)
         {
             string PatientInfo = Utility.VerifyPatientID(DpatientID.Text);
-            if(PatientInfo != null)
+            if (PatientInfo != null)
             {
                 DataToDelete(PatientInfo);
             }
@@ -39,7 +39,6 @@ namespace CS50_Medical_App
             DateTime DoB = DDoB.Value;
             if (!string.IsNullOrEmpty(forename) & !string.IsNullOrEmpty(surname) & DoB.Date != DateTime.Today)
             {
-                //TODO: check this works
                 string PatientInfo = Utility.VerifyPatientID(forename, surname, DoB);
                 if (PatientInfo != null)
                 {
@@ -47,12 +46,8 @@ namespace CS50_Medical_App
                 }
                 else
                 {
-                    MessageBox.Show("Error looking up patient\nSQL entry not found", "Error");
+                    MessageBox.Show("Please enter forename, surname and date of birth", "Empty field");
                 }
-            }
-            else
-            {
-                MessageBox.Show("Please enter forename, surname and date of birth", "Empty field");
             }
         }
 

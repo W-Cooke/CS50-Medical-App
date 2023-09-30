@@ -27,7 +27,7 @@ namespace CS50_Medical_App
             string patientID = SpatientID.Text;
             if (!string.IsNullOrEmpty(patientID))
             {
-                var PatientInfo = Utility.GetPatientDetails(patientID);
+                var PatientInfo = Utility.VerifyPatientID(patientID);
                 if (PatientInfo != null)
                 {
                     DataToDisplayForm(PatientInfo);
@@ -48,19 +48,18 @@ namespace CS50_Medical_App
             string forename = Sforename.Text;
             string surname = Ssurname.Text;
             DateTime DoB = SDoB.Value;
-            if(!string.IsNullOrEmpty(forename) & !string.IsNullOrEmpty(surname) & DoB != DateTime.Today)
+            if(!string.IsNullOrEmpty(forename) & !string.IsNullOrEmpty(surname) & DoB.Date != DateTime.Today)
             {
                 //TODO: check this works
-                var PatientInfo = Utility.GetPatientDetails(forename, surname, DoB);
+                string PatientInfo = Utility.VerifyPatientID(forename, surname, DoB);
                 if (PatientInfo != null)
                 {
                     DataToDisplayForm(PatientInfo);
                 }
                 else
                 {
-                    MessageBox.Show("Dictionary is empty\nSQL entry not found", "Error"); //TODO: dont leave this, dumbass
+                    MessageBox.Show("Error looking up patient\nSQL entry not found", "Error");
                 }
-                
             }
             else
             {
@@ -70,8 +69,8 @@ namespace CS50_Medical_App
         }
 
 
-        //method for opening displayform with dictionary as argument
-        private void DataToDisplayForm(Dictionary<string, string> data)
+        //method for opening displayform with patient ID as argument
+        private void DataToDisplayForm(string data)
         {
             DisplayForm displayform = new DisplayForm(data);
             displayform.Show();

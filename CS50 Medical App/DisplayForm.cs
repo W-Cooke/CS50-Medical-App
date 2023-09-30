@@ -7,31 +7,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CS50_Medical_App.Utilities;
 
 namespace CS50_Medical_App
 {
     public partial class DisplayForm : Form
     {
-        public DisplayForm(Dictionary<string, string> dict)
+        private string PatientID;
+        
+        public DisplayForm(string data)
         {
             InitializeComponent();
+            this.PatientID = data;
         }
 
         private void DisplayForm_Load(object sender, EventArgs e)
         {
-            Dictionary<string, string> PatientInfo = (Dictionary<string, string>)sender; //TODO: throws error, cannot convert object to dictionary
-            //list of keys
-            string[] PatientKey = { "ID", "Title", "Surname", "Forename", "Pronouns", "Sex", "DoB", "Address", "Phone" }; //TODO: do i need this?
-            
-            string patientID = PatientInfo["ID"];
-            string patientName = PatientInfo["Title"] + ". " + PatientInfo["Forename"] + " " + PatientInfo["Surname"];
-            string dateOfBirth = PatientInfo["DoB"];
-            string patientSex = PatientInfo["Sex"];
-            string pronouns = PatientInfo["Pronouns"];
-            string contactInfo = PatientInfo["Adress"] + "\nPhone: " + PatientInfo["Phone"];
-            
 
-            
+            var PatientInfo = Utility.GetPatientDetails(PatientID);
+            //TODO:
+            NameField.Text = PatientInfo["Title"] + ". " + PatientInfo["Forename"] + " " + PatientInfo["Surname"];
+            DoBField.Text = PatientInfo["DoB"];
+            SexField.Text = PatientInfo["Sex"];
+            PronounsField.Text = PatientInfo["Pronouns"];
+            ContactField.Text = PatientInfo["Address"];
+            PhoneField.Text = PatientInfo["Phone"];
+        }
+
+        private void BtnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

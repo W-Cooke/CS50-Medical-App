@@ -73,6 +73,7 @@
             this.BtnDelete.TabIndex = 3;
             this.BtnDelete.Text = "Delete a patient";
             this.BtnDelete.UseVisualStyleBackColor = true;
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // Welcome
             // 

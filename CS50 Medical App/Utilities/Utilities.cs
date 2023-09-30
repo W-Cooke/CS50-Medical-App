@@ -26,6 +26,7 @@ namespace CS50_Medical_App.Utilities
         public static Dictionary<string, string> GetPatientDetails(string patientID)
         {
             var PatientInfo = new Dictionary<string, string>();
+            SqlConnection con = new SqlConnection(PatientsConnection);
             using (con)
             {
                 con.Open();
@@ -50,7 +51,7 @@ namespace CS50_Medical_App.Utilities
                 {
                     while (reader.Read())
                     {
-                        for (int i = 0; i < PatientKey.Length - 1; i++)
+                        for (int i = 0; i < PatientKey.Length; i++)
                         {
                             if (reader.IsDBNull(i))
                             {
@@ -72,126 +73,87 @@ namespace CS50_Medical_App.Utilities
             }
             return PatientInfo;
 
-        }
-
-        public static Dictionary<string, string> GetPatientDetails(string forename, string surname, DateTime DoB)
-        {
-            string dateofbirth = DoB.ToString("dd MMMM yyyy");
-            var PatientInfo = new Dictionary<string, string>();
-            using (con)
-            {
-                con.Open();
-                SqlCommand cmd = new SqlCommand($"SELECT * FROM [dbo].[Patients] WHERE Forename = '{forename}' AND Surname = '{surname}' AND DoB = '{DoB}'", con);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                // if sql command successful
-                if (reader.RecordsAffected == -1)
-                {
-                    MessageBox.Show($"SQL command executed successfully\nRecords Affected: {reader.RecordsAffected}", "Information");
-                }
-                else
-                {
-                    MessageBox.Show($"Something went wrong with the SQL query\nRecords Affected: {reader.RecordsAffected}", "Information");
-                    return null;
-                }
-
-                //making array of keys so, when populating PatientInfo dictionary, a loop can be used (indexing the list with the reader)
-                string[] PatientKey = { "ID", "Title", "Surname", "Forename", "Pronouns", "Sex", "DoB", "Address", "Phone" };
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        for (int i = 0; i < PatientKey.Length - 1; i++)
-                        {
-                            if (reader.IsDBNull(i))
-                            {
-                                PatientInfo.Add(PatientKey[i], "n/a");
-                            }
-                            else
-                            {
-                                PatientInfo.Add(PatientKey[i], reader.GetString(i));
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Something went wrong with SQL data collection", "Error");
-                    return null;
-                }
-                con.Close();
-            }
-            return PatientInfo;
         }
 
         public static string VerifyPatientID(string PatientID)
         {
-            //TODO: lookup ID number, return ID number if valid, return something else if not
-            return null;
+            //lookup ID number, return ID number if valid, return null if not
+            SqlConnection con = new SqlConnection(PatientsConnection);
+            using (con)
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand($"SELECT ID FROM [dbo].[Patients] WHERE ID = '{PatientID}'", con);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.RecordsAffected == -1)
+                {
+                    MessageBox.Show("SQL Command Executed Succesfully!", "SQL");
+                    con.Close();
+                    return PatientID;
+                }
+                else
+                {
+                    MessageBox.Show("SQL Command went wrong. couldn't look up from Patient ID. Are you sure this is correct?", "Error!");
+                    con.Close();
+                    return null;
+                }
+            }
         }
         public static string VerifyPatientID(string forename, string surname, DateTime DoB)
         {
             //TODO: write method for returning patient ID from name/dob lookup
             //TODO: return ID if succesful, something else if not
-            return null;
-        }
-    }
-
-    //TODO:
-    //lookup method with overload to handle patient ID lookup or name/dob lookup
-    //return dictionary? boolean?
-    /* PSEUDOCODE:
-    public dictionary<string, string> GetPatientInfo(string patientID)
-        code here for lookup (taken from lookup form)
-        return dictionary<string, string>
-    public dictionary<string, string> GetPatientInfo(string forename, string surname, DateTime DoB)
-        code here similar to lookup
-        convert datetime to string with same format as in SQL
-        return dictionary<string, string>
-    */
-
-    /* CODE FOR LATER
-
+            string dateofbirth = DoB.ToString("dd MMMM yyyy");
+            string PatientID;
+            SqlConnection con = new SqlConnection(PatientsConnection);
             using (con)
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand($"SELECT * FROM [dbo].[Patients] WHERE ID LIKE '{patientID}'", con);
-                SqlDataReader reader = cmd.ExecuteReader(); //TODO: error coming from here rn
+                SqlCommand cmd = new SqlCommand($"SELECT ID FROM [dbo].[Patients] WHERE Forename = '{forename}' AND Surname = '{surname}' AND DoB = '{dateofbirth}'", con);
+                SqlDataReader reader = cmd.ExecuteReader();
 
                 // if sql command successful
                 if (reader.RecordsAffected == -1)
                 {
-                    MessageBox.Show($"SQL command executed successfully\nRecords Affected: {reader.RecordsAffected}", "Information");
+                    reader.Read();
+                    string vsCount = reader.VisibleFieldCount.ToString();
+                    MessageBox.Show($"SQL command executed successfully\nRecords Affected: {reader.RecordsAffected}\nInformation {vsCount}", "Information");
+                    PatientID = reader.GetString(0); //FIXME: system.InvalidOperationException (invalid attempt to read when no data is present)
+                    con.Close();
+                    return PatientID;
+
                 }
                 else
                 {
                     MessageBox.Show($"Something went wrong with the SQL query\nRecords Affected: {reader.RecordsAffected}", "Information");
+                    con.Close();
+                    return null;
                 }
+            }
+        }
 
-                //making array of keys so, when populating PatientInfo dictionary, a loop can be used (indexing the list with the reader)
-                string[] PatientKey = { "ID", "Title", "Surname", "Forename", "Pronouns", "Sex", "DoB", "Address", "Phone" };
-                if (reader.HasRows)
+        public static bool DeletePatient(string PatientID)
+        {
+            SqlConnection con = new SqlConnection(PatientsConnection);
+            using (con)
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand($"DELETE FROM [dbo].[Patients] WHERE ID = '{PatientID}'", con);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.RecordsAffected == 1)
                 {
-                    while (reader.Read())
-                    {
-                        for (int i = 0; i < PatientKey.Length - 1; i++)
-                        {
-                            if (reader.IsDBNull(i))
-                            {
-                                PatientInfo.Add(PatientKey[i], "n/a");
-                            }
-                            else
-                            {
-                                PatientInfo.Add(PatientKey[i], reader.GetString(i));
-                            }
-                        }
-                    }
+                    MessageBox.Show("Patient Records Deleted", "Delete Confirmed");
+                    con.Close();
+                    return true;
                 }
                 else
                 {
-                    MessageBox.Show("Something went wrong with SQL data collection", "Error");
+                    MessageBox.Show("SQL Command went wrong. couldn't look up from Patient ID. Are you sure this is correct?", "Error!");
+                    con.Close();
+                    return false;
                 }
-                con.Close();
             }
-            */
+        }
+    }
 }

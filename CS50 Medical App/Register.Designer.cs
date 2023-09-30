@@ -136,7 +136,7 @@ namespace CS50_Medical_App
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(178, 205);
+            this.label9.Location = new System.Drawing.Point(179, 98);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(78, 13);
             this.label9.TabIndex = 8;
@@ -261,7 +261,7 @@ namespace CS50_Medical_App
             // 
             // Fphonenum
             // 
-            this.Fphonenum.Location = new System.Drawing.Point(178, 221);
+            this.Fphonenum.Location = new System.Drawing.Point(182, 114);
             this.Fphonenum.Name = "Fphonenum";
             this.Fphonenum.Size = new System.Drawing.Size(108, 20);
             this.Fphonenum.TabIndex = 22;
@@ -270,7 +270,7 @@ namespace CS50_Medical_App
             // 
             this.Faddnum.Location = new System.Drawing.Point(9, 114);
             this.Faddnum.Name = "Faddnum";
-            this.Faddnum.Size = new System.Drawing.Size(86, 20);
+            this.Faddnum.Size = new System.Drawing.Size(167, 20);
             this.Faddnum.TabIndex = 23;
             // 
             // label11

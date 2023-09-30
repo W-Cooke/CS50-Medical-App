@@ -159,7 +159,7 @@ namespace CS50_Medical_App
         {
             List<(string field, string fieldName)> addresslines = new List<(string field, string fieldName)>
         {
-            (num, "Phone number"),
+            (num, "Address Name/Number"),
             (addline1, "Address line 1"),
             (county, "County"),
             (postcode, "Postcode"),
@@ -187,5 +187,6 @@ namespace CS50_Medical_App
         {
             this.Close();
         }
+
     }
 }
